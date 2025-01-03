@@ -1,0 +1,47 @@
+<!--index.wxml-->
+<navigation-bar title="App查询" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+<scroll-view class="scrollarea" scroll-y type="list">
+  <view class="login-container">
+    <view class="logo-area">
+      <image class="logo" src="/assets/logo.png" mode="aspectFit"></image>
+    </view>
+    
+    <view class="login-form">
+      <view class="input-group">
+        <view class="input-label">用户名</view>
+        <input 
+          class="input-box" 
+          type="text" 
+          placeholder="请输入用户名"
+          value="{{username}}"
+          bindinput="onUsernameInput"
+        />
+      </view>
+      
+      <view class="input-group">
+        <view class="input-label">密码</view>
+        <input 
+          class="input-box" 
+          type="password" 
+          placeholder="请输入密码"
+          value="{{password}}"
+          bindinput="onPasswordInput"
+        />
+      </view>
+      
+      <view class="login-btn" bindtap="handleLogin">登录</view>
+    </view>
+    
+    <view class="other-login">
+      <view class="other-login-title">其他登录方式</view>
+      <view class="other-login-icons">
+        <image 
+          class="other-icon" 
+          src="/assets/wechat.png" 
+          mode="aspectFit"
+          bindtap="handleWechatLogin"
+        ></image>
+      </view>
+    </view>
+  </view>
+</scroll-view>
