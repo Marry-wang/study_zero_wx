@@ -1,48 +1,64 @@
-<navigation-bar title="个人中心" back="{{false}}" color="white" background="transparent"></navigation-bar>
+<navigation-bar title="首页" back="{{false}}" color="white" background="transparent"></navigation-bar>
 <view class="home-container">
-  <!-- 用户信息区域 -->
-  <view class="user-section">
-    <view class="user-info">
-      <view class="avatar-placeholder"></view>
-      <view class="user-detail">
-        <text class="nickname">{{userInfo.nickName || '用户昵称'}}</text>
-        <text class="user-id">ID: {{userInfo.userId || '--'}}</text>
+  <!-- 背景图区域 -->
+  <view class="banner-section">
+    <view class="banner-content">
+      <text class="welcome-text">欢迎回来</text>
+      <text class="user-name">{{userInfo.nickName || '亲爱的用户'}}</text>
+    </view>
+  </view>
+
+  <!-- 快捷功能区 -->
+  <view class="quick-access">
+    <view 
+      class="quick-item" 
+      wx:for="{{quickActions}}" 
+      wx:key="text"
+      bindtap="handleQuickAction"
+      data-type="{{item.type}}"
+    >
+      <view class="quick-icon {{item.icon}}"></view>
+      <text class="quick-text">{{item.text}}</text>
+    </view>
+  </view>
+
+  <!-- 功能区域 -->
+  <view class="feature-section">
+    <view class="section-title">常用功能</view>
+    <view class="feature-grid">
+      <view 
+        class="feature-item" 
+        wx:for="{{features}}" 
+        wx:key="text"
+        bindtap="handleFeatureClick"
+        data-url="{{item.url}}"
+      >
+        <view class="feature-icon {{item.icon}}"></view>
+        <text class="feature-text">{{item.text}}</text>
       </view>
     </view>
-    <view class="edit-btn" bindtap="handleEditProfile">编辑资料</view>
   </view>
 
-  <!-- 数据概览 -->
-  <view class="data-section">
-    <view class="data-item">
-      <text class="number">0</text>
-      <text class="label">收藏</text>
-    </view>
-    <view class="data-item">
-      <text class="number">0</text>
-      <text class="label">关注</text>
-    </view>
-    <view class="data-item">
-      <text class="number">0</text>
-      <text class="label">足迹</text>
-    </view>
-  </view>
-
-  <!-- 功能菜单 -->
-  <view class="menu-section">
-    <view 
-      class="menu-item" 
-      wx:for="{{menuList}}" 
-      wx:key="text"
-      bindtap="handleMenuClick"
-      data-url="{{item.url}}"
-    >
-      <view class="menu-icon-placeholder"></view>
-      <text class="menu-text">{{item.text}}</text>
-      <view class="arrow-icon-placeholder"></view>
+  <!-- 推荐区域 -->
+  <view class="recommend-section">
+    <view class="section-title">为您推荐</view>
+    <view class="recommend-list">
+      <view 
+        class="recommend-item"
+        wx:for="{{recommends}}"
+        wx:key="title"
+        bindtap="handleRecommendClick"
+        data-id="{{item.id}}"
+      >
+        <view class="recommend-content">
+          <text class="recommend-title">{{item.title}}</text>
+          <text class="recommend-desc">{{item.desc}}</text>
+        </view>
+        <view class="recommend-right">
+          <text class="recommend-tag" wx:if="{{item.tag}}">{{item.tag}}</text>
+          <view class="arrow"></view>
+        </view>
+      </view>
     </view>
   </view>
-
-  <!-- 退出登录 -->
-  <view class="logout-btn" bindtap="handleLogout">退出登录</view>
 </view> 

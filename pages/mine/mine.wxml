@@ -1,0 +1,54 @@
+<navigation-bar title="我的" back="{{false}}" color="white" background="transparent"></navigation-bar>
+<view class="mine-container">
+  <!-- 用户信息区域 -->
+  <view class="user-section">
+    <view class="user-info">
+      <view class="avatar-placeholder"></view>
+      <view class="user-detail">
+        <text class="nickname">{{userInfo.nickName || '用户昵称'}}</text>
+        <text class="user-id">ID: {{userInfo.userId || '--'}}</text>
+      </view>
+    </view>
+    <view class="edit-profile" bindtap="handleEditProfile">
+      <text>编辑资料</text>
+      <view class="arrow"></view>
+    </view>
+  </view>
+
+  <!-- 用户数据统计 -->
+  <view class="stats-section">
+    <view class="stats-item" wx:for="{{statsData}}" wx:key="label">
+      <text class="stats-num">{{item.num}}</text>
+      <text class="stats-label">{{item.label}}</text>
+    </view>
+  </view>
+
+  <!-- 功能列表 -->
+  <view class="menu-section">
+    <view class="menu-group" wx:for="{{menuGroups}}" wx:key="title">
+      <view class="menu-title">{{item.title}}</view>
+      <view class="menu-list">
+        <view 
+          class="menu-item" 
+          wx:for="{{item.items}}" 
+          wx:key="text" 
+          wx:for-item="menuItem"
+          bindtap="handleMenuClick"
+          data-url="{{menuItem.url}}"
+        >
+          <view class="menu-item-left">
+            <view class="menu-icon {{menuItem.icon}}"></view>
+            <text class="menu-text">{{menuItem.text}}</text>
+          </view>
+          <view class="menu-right">
+            <text class="menu-value">{{menuItem.value}}</text>
+            <view class="arrow"></view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 退出登录 -->
+  <view class="logout-btn" bindtap="handleLogout">退出登录</view>
+</view> 

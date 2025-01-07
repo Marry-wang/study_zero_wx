@@ -1,100 +1,126 @@
 Page({
   data: {
     userInfo: {},
-    menuList: [
+    quickActions: [
       {
-        // icon: '/assets/icons/order.png',
-        text: '我的订单',
+        icon: 'icon-scan',
+        text: '扫一扫',
+        type: 'scan'
+      },
+      {
+        icon: 'icon-payment',
+        text: '付款',
+        type: 'payment'
+      },
+      {
+        icon: 'icon-card',
+        text: '卡包',
+        type: 'card'
+      },
+      {
+        icon: 'icon-service',
+        text: '客服',
+        type: 'service'
+      }
+    ],
+    features: [
+      {
+        icon: 'icon-order',
+        text: '订单',
         url: '/pages/order/order'
       },
       {
-        // icon: '/assets/icons/collect.png',
-        text: '我的收藏',
+        icon: 'icon-coupon',
+        text: '优惠券',
+        url: '/pages/coupon/coupon'
+      },
+      {
+        icon: 'icon-collect',
+        text: '收藏',
         url: '/pages/collect/collect'
       },
       {
-        // icon: '/assets/icons/address.png',
-        text: '收货地址',
+        icon: 'icon-address',
+        text: '地址',
         url: '/pages/address/address'
       },
       {
-        // icon: '/assets/icons/setting.png',
-        text: '设置',
-        url: '/pages/setting/setting'
+        icon: 'icon-history',
+        text: '足迹',
+        url: '/pages/history/history'
+      },
+      {
+        icon: 'icon-help',
+        text: '帮助',
+        url: '/pages/help/help'
+      }
+    ],
+    recommends: [
+      {
+        id: 1,
+        title: '新人专享礼包',
+        desc: '100元优惠券等你领取',
+        tag: '新人专享'
+      },
+      {
+        id: 2,
+        title: '邀请好友',
+        desc: '得50元现金奖励',
+        tag: '活动'
       }
     ]
   },
 
   onLoad() {
-    // 使用 nextTick 确保页面准备就绪
-    wx.nextTick(() => {
-      this.initPage()
-    })
+    this.getUserInfo()
   },
 
-  initPage() {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        this.getUserInfo()
-        resolve()
-      }, 200)
-    })
-  },
-
-  getUserInfo() {
-    try {
-      const userInfo = wx.getStorageSync('userInfo')
-      if (userInfo) {
-        this.setData({ userInfo })
-      }
-    } catch (e) {
-      console.error('获取用户信息失败:', e)
+  onShow() {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({
+        selected: 0
+      })
     }
   },
 
-  // 编辑资料
-  handleEditProfile() {
-    wx.navigateTo({
-      url: '/pages/profile/edit'
-    })
+  getUserInfo() {
+    const userInfo = wx.getStorageSync('userInfo')
+    if (userInfo) {
+      this.setData({ userInfo })
+    }
   },
 
-  // 退出登录
-  handleLogout() {
-    wx.showModal({
-      title: '提示',
-      content: '确定要退出登录吗？',
-      success: (res) => {
-        if (res.confirm) {
-          try {
-            wx.clearStorageSync()
-            wx.reLaunch({
-              url: '/pages/index/index'
-            })
-          } catch (e) {
-            console.error('退出登录失败:', e)
-            wx.showToast({
-              title: '退出失败，请重试',
-              icon: 'none'
-            })
+  handleQuickAction(e) {
+    const { type } = e.currentTarget.dataset
+    switch (type) {
+      case 'scan':
+        wx.scanCode({
+          success: (res) => {
+            console.log('扫码结果：', res)
           }
-        }
-      }
-    })
+        })
+        break
+      case 'payment':
+        wx.navigateTo({ url: '/pages/payment/payment' })
+        break
+      case 'card':
+        wx.navigateTo({ url: '/pages/card/card' })
+        break
+      case 'service':
+        wx.navigateTo({ url: '/pages/service/service' })
+        break
+    }
   },
 
-  // 菜单项点击
-  handleMenuClick(e) {
+  handleFeatureClick(e) {
     const { url } = e.currentTarget.dataset
     wx.navigateTo({ url })
   },
 
-  // 下拉刷新
-  async onPullDownRefresh() {
-    try {
-      await this.initPage()
-    } finally {
-      wx.stopPullDownRefresh()
-    }
+  handleRecommendClick(e) {
+    const { id } = e.currentTarget.dataset
+    wx.navigateTo({
+      url: `/pages/activity/detail?id=${id}`
+    })
   }
 }) 
